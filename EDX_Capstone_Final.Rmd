@@ -1,0 +1,107 @@
+---
+title: "EDX Capstone MovieLens Project"
+author: "Fernando A. Mitidieri"
+date: "29/12/2023"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+subtitle: Report and findings
+file: EDX_Capstone_Final.rmd
+---
+
+
+```{r load edxOriginal, echo=FALSE}
+load("ml-10M100K/movielens.RData")
+# load("~/Desktop/Material Machine Learning/EdX/EDX_Capstone/ml-10M100K/edx.RData")
+```
+
+
+## 1. Introduction
+This is a report for the final project of HarvardX Data Science Program to obtain the professional certificate. 
+The goal of this project is to create a recommendation system to movies based on dataset MovieLens. The dataset will be used to training models that will be validate using RMSE as the loss function to evaluate which one has better performance.
+
+Movielens is a large and sparse dataset with XXX movies, YYY users and 10,000,054 rates. 
+Dataset is composed by 6 columns:  userId, movieId, rating, timestamp, title and genre.
+
+```{r headOriginal, echo=FALSE}
+knitr::kable(str(movielens), caption = "Movielens variable types")
+```
+
+To accomplish the goal defined above, will be necessary a bunch of steps that follow:
+
+a) Download complete dataset from http://files.grouplens.org/datasets/movielens/ml-10m.zip
+b) Generate training and validation sets. 
+c) Execute a data exploration and previous analysis of data.
+d) Put down findings 
+e) Modeling several algorithms
+f) Calculate and verify RMSE 
+g) Compare results 
+h) Present insights and final results
+i) Conclusions
+
+The goal of this projet is create a recommendation system of movies for users. It should come up with a movie title recommendation based on the other features presented into dataset.
+
+This project was saved using GitHub to control versions and the source code. Below follow the public address to access all files of this project:
+
+
+
+a) Download dataset
+
+Was used the script provided in the assesment to download the movielens data set and create the validation and training sets. 
+
+b) Datasets
+
+After that dataset movielens had been downloaded, was created two different datasets:
+i) Final_handout_test - should be used only when the final model had been choose. It is important that final model be tested with a unused dataset. The Final_handout_test set is equivalent of 10% of data from movielens.
+ii) Training - From those 90% that wasn't used in Final_handout_test set, it was created two different sets: edx and validation.
+edx - has 90% of training set and is used o training the models
+valisation - has 10% of training set and is used to assess the models 
+
+After created the datasets, they were saved as a Rdata file to be used during the development stage of analysis.
+
+
+```{r load edx, echo=FALSE}
+load("ml-10M100K/edx.RData")
+# load("~/Desktop/Material Machine Learning/EdX/EDX_Capstone/ml-10M100K/edx.RData")
+```
+
+c) Exploring data
+First of all, the data set was inspected:
+
+```{r headEdx, echo=FALSE}
+knitr::kable(head(edx), caption = "EDX Dataset sample")
+```
+
+Performing a first analysis on columns from dataset, it's easy to see that there are two columns with equivalent information, they are title and movieId. There are a 1:1 correspondence and we could just use one as our outcome and to dischart the other that just will be used as a friendly outcome for ours users.
+
+One important characteristic of this dataset is that there are many users and many movies, but few raiting if we consider all possibilities. Bellow is possible to 
+analysis how sparse the movielens data is. The size of matrix used to generates the plot was constrict into 1000x1000 users by items.
+
+![Sparse matrix 1000x1000](figures/figure1.jpeg){width=50%}
+
+Just to make it clear, the plot above is plotted again but now with only 50x50 users and items. This characteristic of such matrix shows that.... "COMPLETE WITH SOME EXPLANATION FROM ARTICLES"
+
+
+![Sparse matrix 50x50](figures/figure1x.jpeg){width=50%}
+
+A natural analysis is find how ratings are distributed along data. It is possible to discover that the mean is around 3.51 stars and that users trend to give higher ratings. This is perceived by the 
+
+![Rating distribution](figures/figure2.jpeg){width=50%}
+
+Here is to include comments about figure 3
+
+
+![Top ten movies rated](figures/figure3.jpeg){width=50%}
+
+![Movie rating distribution](figures/figure4.jpeg){width=50%}
+
+![Top ten genre rated](figures/figure5.jpeg){width=50%}
+
+![Mean rate according genre](figures/figure6.jpeg){width=50%}
+
+![Ratings per year Title](figures/figure7.jpeg){width=50%}
+
+
+Final do texto
