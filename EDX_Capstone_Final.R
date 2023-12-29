@@ -258,6 +258,7 @@ memory.limit(999999)
 userIdList<-rating_matrix[1,]
 rating_matrix<-rating_matrix[,-1]
 
+save(rating_matrix, file="ml-10M100K/rating_matrix.RData")
 
 #Just to make the life easier, I chose just a square matrix of 1000x1000 register
 real_ratings<-as(rating_matrix[1:1000,1:1000],"realRatingMatrix")
@@ -370,6 +371,7 @@ dev.off()
 most_genre_2 <- edx %>%
   group_by(genres) %>%
   summarize(count=mean(rating)) %>%
+  top_n(20,count) %>%
   arrange(desc(count))
 
 colnames(most_genre_2)<-c(x="genreId", y="count", z="genres")
@@ -458,7 +460,7 @@ predicted_ratings <- mu + validation %>%
 movie_bias<-RMSE(validation$rating, predicted_ratings)
 movie_bias
 
-RMSE_Table<-RMSE_Table %>% add_row(Method="Movie Bias", RMSE=movie_bias)
+RMSE_Table<-RMSE_Table %>% add_row(Method="+ Movie Bias", RMSE=movie_bias)
 
 ##########################################################
 #Now will be included the influence of the user in the 
@@ -483,7 +485,7 @@ predicted_ratings <- validation %>%
 user_bias<-RMSE(validation$rating,predicted_ratings)
 user_bias
 
-RMSE_Table<-RMSE_Table %>% add_row(Method="User Bias", RMSE=user_bias)
+RMSE_Table<-RMSE_Table %>% add_row(Method="+ User Bias", RMSE=user_bias)
 
 ##########################################################
 #The next influence to be considered will be
@@ -511,7 +513,7 @@ predicted_ratings <- validation %>%
 year_title_bias<-RMSE(validation$rating, predicted_ratings)
 year_title_bias
 
-RMSE_Table<-RMSE_Table %>% add_row(Method="Year Title Bias", RMSE=year_title_bias)
+RMSE_Table<-RMSE_Table %>% add_row(Method="+ Year Title Bias", RMSE=year_title_bias)
 
 ##########################################################
 #The next influence to be considered will be
@@ -540,7 +542,7 @@ predicted_ratings <- validation %>%
 year_bias<-RMSE(validation$rating,predicted_ratings)
 year_bias
 
-RMSE_Table<-RMSE_Table %>% add_row(Method="Rating Year Bias", RMSE=year_bias)
+RMSE_Table<-RMSE_Table %>% add_row(Method="+ Rating Year Bias", RMSE=year_bias)
 
 ##########################################################
 #The next influence to be considered will be
@@ -571,7 +573,7 @@ predicted_ratings <- validation %>%
 genre_bias<-RMSE(validation$rating,predicted_ratings)
 genre_bias
 
-RMSE_Table<-RMSE_Table %>% add_row(Method="Genre Bias", RMSE=genre_bias)
+RMSE_Table<-RMSE_Table %>% add_row(Method="+ Genre Bias", RMSE=genre_bias)
 
 #The model with the last coefficient added, presented a very good result 
 #with the validation set. Now, let's try with the final_holdout_test set.
